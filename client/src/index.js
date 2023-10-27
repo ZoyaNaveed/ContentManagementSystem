@@ -1,17 +1,52 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import React, { ErrorBoundary } from "react";
+import ReactDOM from "react-dom/client";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import App from "./App";
+import Login from "./components/login";
+import Project from "./components/project";
+import Signup from "./components/signup";
+import Task from "./components/task";
+import Team from "./components/team";
+import TeamRoaster from "./components/teamRoaster";
+import UserStory from "./components/userStory";
+import "./index.css";
+import DisplayTeams from "./components/DisplayTeams";
+import DisplayProjects from "./components/DisplayProjects";
+import AddTeamMember from "./components/AddTeamMember";
+import DisplayUsersWithTeam from "./components/DisplayUsersWithTeam";
+import DisplayUserStory from "./components/DisplayUserStory";
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<App />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/add-teammember" element={<AddTeamMember />} />
+      <Route path="/display-teammember" element={<DisplayUsersWithTeam />} />
+      <Route path="/list-userStories" element={<DisplayUserStory />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/projects" element={<Project />} />
+      <Route path="/display-projects" element={<DisplayProjects />} />
+      <Route path="/teams" element={<Team />} />
+      <Route path="/display-teams" element={<DisplayTeams />} />
+      <Route path="/teamRoasters" element={<TeamRoaster />} />
+      <Route path="/userStories" element={<UserStory />} />
+      <Route path="/tasks" element={<Task />} />
+    </>
+  )
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={router}>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </RouterProvider>
+  </React.StrictMode>
+);
