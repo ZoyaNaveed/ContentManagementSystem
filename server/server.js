@@ -59,3 +59,32 @@ app.post("/add-team", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+app.get("/all-teams", async (req, res) => {
+  try {
+    const team = await Team.find({});
+    res.send(team);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// project added
+app.post("/add-project", async (req, res) => {
+  try {
+    const project = new Project(req.body);
+    await project.save();
+    res.send(project);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/all-projects", async (req, res) => {
+  try {
+    const project = await Project.find({});
+    res.send(project);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
