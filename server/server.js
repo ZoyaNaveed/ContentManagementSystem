@@ -45,3 +45,17 @@ app.post("/add-user", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// Team APIS
+
+// user aadding and retreiving info
+app.post("/add-team", async (req, res) => {
+  try {
+    const team = new Team(req.body);
+    // save is mongodb method
+    await team.save();
+    res.send(team);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
