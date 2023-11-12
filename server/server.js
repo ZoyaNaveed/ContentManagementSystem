@@ -88,3 +88,89 @@ app.get("/all-projects", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// add users with team
+app.post("/add-users-to-team", async (req, res) => {
+  try {
+    console.log("tem with project", req.body);
+    const usersWithTeam = new UsersWithTeam(req.body);
+    await usersWithTeam.save();
+    res.send(usersWithTeam);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+app.get("/get-users-for-team", async (req, res) => {
+  const teamName = req.query.teamName;
+  try {
+    console.log("tem with project", teamName);
+    const usersWithTeam = await UsersWithTeam.findOne({ teamName: teamName });
+    if (usersWithTeam) {
+      res.send(usersWithTeam);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.put("/add-users-to-team", async (req, res) => {
+  try {
+    const usersWithTeam = await UsersWithTeam.findOneAndUpdate(
+      { teamName: req.body.teamName },
+      {
+        $set: {
+          teamName: req.body.teamName,
+          users: req.body.users,
+        },
+      }
+    );
+    if (usersWithTeam) {
+      res.send(usersWithTeam);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+//add user story
+
+app.post("/add-user-story", async (req, res) => {
+  try {
+    const userStory = new UserStory(req.body);
+    await userStory.save();
+    res.send(userStory);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/get-user-stories", async (req, res) => {
+  try {
+    const userStory = await UserStory.find({});
+    res.send(userStory);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.put("/update-user-story", async (req, res) => {
+  try {
+    console.log("tem with project", req.body);
+    const usersWithTeam = await UserStory.deleteMany({
+      projectName: { $in: req.body },
+    });
+    if (usersWithTeam) {
+      res.send(usersWithTeam);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
