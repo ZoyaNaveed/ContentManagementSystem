@@ -5,10 +5,12 @@ const TeamRosterSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Team",
   },
+  
   member_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
 });
 
 
