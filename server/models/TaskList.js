@@ -21,6 +21,7 @@ const TaskListSchema = new mongoose.Schema({
     enum: ["To Do", "In Progress", "Done"],
     default: "To Do",
   },
+  
 });
 
 const TaskList = mongoose.model("TaskList", TaskListSchema);

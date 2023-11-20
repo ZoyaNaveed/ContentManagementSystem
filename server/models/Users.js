@@ -16,6 +16,8 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+
+
 const User = mongoose.model("User", UserSchema);
 
 // this will helps in exporting this file to use in another file
