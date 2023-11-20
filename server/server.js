@@ -7,7 +7,10 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const User = require("./models/Users");
-
+const Team = require("./models/Team");
+const Project = require("./models/Project");
+const UsersWithTeam = require("./models/UsersWithTeam");
+const UserStory = require("./models/UserStory");
 // database connection
 const uri =
   "mongodb+srv://sambati:Bk434kWxKmsIHIgB@assignment1.xnqeuih.mongodb.net/se-assignments?retryWrites=true&w=majority";
@@ -32,6 +35,14 @@ app.listen(5001, () => {
   console.log(`server started at ${5001}`);
 });
 
+//CRUD  Operation
+// C (Create): post()
+// R (Read): get();
+// U(Update): put();
+// D (delete): delete();
+
+// user information endpoints
+// http://localhost:5000/info
 
 // user aadding and retreiving info
 app.post("/add-user", async (req, res) => {
@@ -40,6 +51,32 @@ app.post("/add-user", async (req, res) => {
     const user = new User(req.body);
     // save is mongodb method
     await user.save();
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/user-info", async (req, res) => {
+  const username = req.query.username;
+  const password = req.query.password;
+  try {
+    //findOne is mongodb method
+    const user = await User.findOne({ username, password });
+    if (user) {
+      res.send(user);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/all-users", async (req, res) => {
+  try {
+    //findOne is mongodb method
+    const user = await User.find({});
     res.send(user);
   } catch (error) {
     res.status(500).send(error);
@@ -114,7 +151,6 @@ app.get("/get-users-for-team", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
 app.put("/add-users-to-team", async (req, res) => {
   try {
     const usersWithTeam = await UsersWithTeam.findOneAndUpdate(
@@ -135,7 +171,6 @@ app.put("/add-users-to-team", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
 
 //add user story
 
@@ -173,4 +208,3 @@ app.put("/update-user-story", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
